@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <script src= "{{url_for('static', filename='jquery-2.2.4.min.js')}}"></script>
+    <title></title>
+  </head>
+  <body>
+      <div class="container">
+          <div class="columns">
+              <div class="column col-12">
+                  <h5 class="text-center">Handwritten Arabic Digits Recognition using Neural Networks</h5>
+              </div>
+              <div class="column col-12">
+                  <canvas class="p-centered" id="canvas" width="400" height="400" style="border:1px solid #000; background-color: #000;"></canvas>
+                  <div class="divider"></div>
+              </div>
+              <div class="column col-6">
+                  <a id="save" class="p-centered btn btn-primary btn-lg" href="#" onClick="savePix()">تعرف على الرقم</a>
+              </div>
+              <div class="column col-6">
+                  <a id="save" class="p-centered btn btn-primary btn-lg" href="/">مسح</a>
+              </div>
+              <div class="column col-12">
+                  <div class="modal" id="modal-id">
+                      <a href="#" class="modal-overlay" aria-label="Close"></a>
+                      <div class="modal-container">
+                          <div class="modal-header">
+                              <a href="#close" onclick="closeModal()" class="btn btn-clear float-left" aria-label="Close"></a>
+                              <div class="modal-title h5 p-centered">لقد قمت بإدخال الرقم</div>
+                          </div>
+                          <div class="modal-body">
+                              <div class="content">
+                                  <!-- content here -->
+                                  <h1 id="answer" class="text-center"></h1>
+                                  <div class="loading loading-lg" style="display:none"></div>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                              <div class="bar">
+                                  <div id="fst" class="bar-item" role="progressbar" style="width:0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <div class="bar">
+                                  <div id="snd" class="bar-item" role="progressbar" style="width:0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <div class="bar">
+                                  <div id="thd" class="bar-item" role="progressbar" style="width:0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+    <script type="text/javascript" src="{{url_for('static', filename='draw.js')}}"></script>
+    <script type="text/javascript">
+     function savePix(e) {
+         $('#modal-id').addClass('active');
+         $('.loading').show();
+         var can  = document.getElementById('canvas');
+         var link = document.getElementById('save');
+         var enter = new Audio("{{url_for('static', filename='enter.mp3')}}");
+         enter.play();
+         $.post("/save",
+                {
+                    digit: can.toDataURL()
+                },
+                function(data, status){
+                    $('.loading').hide();
+                    var sdata = data.split(" ");
+                    var fst = sdata[0];
+                    var fst_p = sdata[1];
+                    var snd = sdata[2];
+                    var snd_p = sdata[3];
+                    var thd = sdata[4];
+                    var thd_p = sdata[5];
+
+                    $('#fst').html(fst + " (" + fst_p + ")").css("width",  fst_p);
+                    $('#snd').html(snd + " (" + snd_p + ")").css("width",  snd_p);
+                    $('#thd').html(thd + " (" + thd_p + ")").css("width",  thd_p);
+
+                    var answer = "\u06F0";
+                    switch(parseInt(fst)) {
+                        case 0:
+                            answer = "\u0660";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='zero.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 1:
+                            answer = "\u0661";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='one.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 2:
+                            answer = "\u0662";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='two.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 3:
+                            answer = "\u0663";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='three.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 4:
+                            answer = "\u0664";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='four.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 5:
+                            answer = "\u0665";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='five.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 6:
+                            answer = "\u0666";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='six.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 7:
+                            answer = "\u0667";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='seven.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 8:
+                            answer = "\u0668";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='eight.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                        case 9:
+                            answer = "\u0669";
+                            setTimeout(function(){
+                                var d = new Audio("{{url_for('static', filename='nine.mp3')}}");
+                                d.play();
+                            }, 1000);
+                            break;
+                    }
+                    $('#answer').html(answer);
+          });
+      };
+     function closeModal(){
+         $('#modal-id').removeClass('active');
+     };
+    </script>
+  </body>
+</html>
