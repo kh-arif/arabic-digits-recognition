@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("arabic-digits-recognition.herokuapp.com/index.html")
+    return render_template("templates/index.html")
 
 @app.route('/save', methods=['POST'])
 def save():
