@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("host=arabic-digits-recognition.herokuapp.com/index.html")
 
 @app.route('/save', methods=['POST'])
 def save():
@@ -19,5 +19,5 @@ def save():
         im.close()
     result = subprocess.run(['python', 'predict.py'], stdout=subprocess.PIPE)
     prediction = result.stdout.decode('utf-8')
-    # print(prediction)
+    #print(prediction)
     return prediction
